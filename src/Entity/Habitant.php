@@ -56,6 +56,10 @@ class Habitant
 
     public function getDateDeNaissance(): ?string
     {
+        if ($this->Date_de_naissance instanceof \DateTimeInterface) {
+            return $this->Date_de_naissance->format('d/m/Y');
+        }
+
         return $this->Date_de_naissance;
     }
 

@@ -1,0 +1,43 @@
+{# templates/info_user/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Info User{% endblock %}
+
+{% block body %}
+    <div style="background-color: #fff; height: 100vh; display: flex; justify-content: center; align-items: center;">
+
+        <div style="width: 400px; padding: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background-color: #ccc;">
+
+            {{ form_start(form) }}
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <label for="{{ form.nom.vars.id }}">Nom</label>
+                {{ form_widget(form.nom, {'attr': {'style': 'width: 180px;'}}) }}
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <label for="{{ form.prenom.vars.id }}">Prénom</label>
+                {{ form_widget(form.prenom, {'attr': {'style': 'width: 180px;'}}) }}
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <label for="{{ form.date_naissance.vars.id }}">Date de naissance</label>
+                {{ form_widget(form.date_naissance, {'attr': {'style': 'width: 180px;'}}) }}
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <label for="{{ form.genre.vars.id }}">Genre</label>
+                {{ form_widget(form.genre, {'attr': {'style': 'width: 180px;'}}) }}
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button type="submit">Enregistrer</button>
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+
+    </div>
+{% endblock %}

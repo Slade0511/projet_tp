@@ -1,23 +1,110 @@
-{% extends 'base.html.twig' %}
+{# templates/default/index.html.twig #}
 
-{% block title %}Hello FormController!{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/0771433f3d.js" crossorigin="anonymous"></script>
+    <title>Site de la commune de Tours</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+        .container {
+            width: 80%;
+        }
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-    <div id="mon-composant">
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .action-icons {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Aligner les icônes à droite */
+        }
+
+        .action-icons i {
+            margin-left: 10px; /* Marge à gauche pour l'espace entre les icônes et le texte */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ path('info_user') }}" class="button">Ajouter un habitant</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Date de naissance</th>
+                    <th>Genre</th>
+                    <th>Action</th> <!-- Déplacer la colonne "Action" à la fin -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for habitant in habitants %}
+                    <tr>
+                        <td>{{ habitant.getNom() }}</td>
+                        <td>{{ habitant.getPrenom() }}</td>
+                        <td>{{ habitant.getDateDeNaissance() }}</td>
+                        <td>{{ habitant.getGenre() }}</td>
+                        <td class="action-icons">
+                            <i class="fas fa-pencil-alt" onclick="editHabitant(
+                                {{ habitant.id }},
+                                '{{ habitant.getNom() }}',
+                                '{{ habitant.getPrenom() }}',
+                                '{{ habitant.getDateDeNaissance() }}',
+                                '{{ habitant.getGenre() }}'
+                            )"></i>
+                            <i class="fas fa-trash" onclick="deleteHabitant({{ habitant.id }})"></i>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/mohamed-nazimabdellaoui/Downloads/projet_tp/src/Controller/FormController.php'|file_link(0) }}">src/Controller/FormController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/mohamed-nazimabdellaoui/Downloads/projet_tp/templates/form/index.html.twig'|file_link(0) }}">templates/form/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+    <script>
+        function editHabitant(id, nom, prenom, dateNaissance, genre) {
+        // Encodage des valeurs pour les URL
+        var encodedNom = encodeURIComponent(nom);
+        var encodedPrenom = encodeURIComponent(prenom);
+        var encodedDateNaissance = encodeURIComponent(dateNaissance);
+        var encodedGenre = encodeURIComponent(genre);
+
+        // Rediriger vers la page d'ajout d'utilisateur avec les données préremplies
+        window.location.href = "{{ path('info_user') }}" +
+            "?id=" + id +
+            "&nom=" + encodedNom +
+            "&prenom=" + encodedPrenom +
+            "&date_naissance=" + encodedDateNaissance +
+            "&genre=" + encodedGenre;
+    }
+
+        function deleteHabitant(id) {
+            // Ajouter la logique pour la suppression ici
+            console.log('Suppression de l\'habitant avec l\'ID ' + id);
+        }
+    </script>
+</body>
+</html>
