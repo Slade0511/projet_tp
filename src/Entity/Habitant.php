@@ -20,7 +20,7 @@ class Habitant
     private ?string $Prenom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Date_de_naissance = null;
+    private ?string $Date_naissance = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Genre = null;
@@ -56,16 +56,12 @@ class Habitant
 
     public function getDateDeNaissance(): ?string
     {
-        if ($this->Date_de_naissance instanceof \DateTimeInterface) {
-            return $this->Date_de_naissance->format('d/m/Y');
-        }
-
-        return $this->Date_de_naissance;
+        return $this->Date_naissance;
     }
 
-    public function setDateDeNaissance(string $Date_de_naissance): static
+    public function setDateDeNaissance(string $Date_naissance): static
     {
-        $this->Date_de_naissance = $Date_de_naissance;
+        $this->Date_naissance = $Date_naissance;
 
         return $this;
     }

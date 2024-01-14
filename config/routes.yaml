@@ -9,3 +9,11 @@ info_user:
 valider_modifications:
     path: '/valider-modifications'
     controller: 'App\Controller\DefaultController::validerModifications'
+api_create_habitant:
+    path: /api/create-habitant
+    controller: App\Controller\ApiController::createHabitant
+    methods: ['POST']
+delete_habitant:
+    path: '/delete-habitant/{id}'
+    controller: 'App\Controller\FormController::deleteHabitant'
+    methods: ['POST']

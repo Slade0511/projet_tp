@@ -16,4 +16,11 @@ class MessageController extends AbstractController
             'controller_name' => 'MessageController',
         ]);
     }
+
+    // Exemple d'utilisation d'Axios dans votre composant Vue ou fichier JavaScript
+
+
+
+
+
 }

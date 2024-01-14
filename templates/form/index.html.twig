@@ -63,23 +63,23 @@
             </thead>
             <tbody>
                 {% for habitant in habitants %}
-                    <tr>
-                        <td>{{ habitant.getNom() }}</td>
-                        <td>{{ habitant.getPrenom() }}</td>
-                        <td>{{ habitant.getDateDeNaissance() }}</td>
-                        <td>{{ habitant.getGenre() }}</td>
-                        <td class="action-icons">
-                            <i class="fas fa-pencil-alt" onclick="editHabitant(
-                                {{ habitant.id }},
-                                '{{ habitant.getNom() }}',
-                                '{{ habitant.getPrenom() }}',
-                                '{{ habitant.getDateDeNaissance() }}',
-                                '{{ habitant.getGenre() }}'
-                            )"></i>
-                            <i class="fas fa-trash" onclick="deleteHabitant({{ habitant.id }})"></i>
-                        </td>
-                    </tr>
-                {% endfor %}
+    <tr>
+        <td>{{ habitant.getNom() }}</td>
+        <td>{{ habitant.getPrenom() }}</td>
+        <td>{{ habitant.getDateDeNaissance() }}</td>
+        <td>{{ habitant.getGenre() }}</td>
+        <td class="action-icons">
+            <i class="fas fa-pencil-alt" onclick="editHabitant(
+                {{ habitant.id }},
+                '{{ habitant.getNom() }}',
+                '{{ habitant.getPrenom() }}',
+                '{{ habitant.getDateDeNaissance() }}',
+                '{{ habitant.getGenre() }}'
+            )"></i>
+            <i class="fas fa-trash" onclick="deleteHabitant({{ habitant.id }})"></i>
+        </td>
+    </tr>
+{% endfor %}
             </tbody>
         </table>
     </div>
@@ -101,10 +101,21 @@
             "&genre=" + encodedGenre;
     }
 
-        function deleteHabitant(id) {
-            // Ajouter la logique pour la suppression ici
-            console.log('Suppression de l\'habitant avec l\'ID ' + id);
+        function deleteHabitant(identifiant) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer cet habitant ?')) {
+            // Utilisez Ajax pour envoyer une requête de suppression
+            var id = identifiant ; 
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', "{{ path('delete_habitant', {'id': id}) }}", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Si la suppression est réussie, mettez à jour l'affichage
+                    location.reload(); // Rafraîchit la page (vous pouvez utiliser une autre méthode pour mettre à jour l'affichage)
+                }
+            };
+            xhr.send();
         }
+    }
     </script>
 </body>
 </html>
