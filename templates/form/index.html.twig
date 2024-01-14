@@ -1,4 +1,4 @@
-{# templates/default/index.html.twig #}
+<!-- templates/default/index.html.twig -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/0771433f3d.js" crossorigin="anonymous"></script>
-    <title>Site de la commune de Tours</title>
+    <title>Site de la commune de Orléans</title>
     <style>
         body {
             margin: 0;
@@ -18,6 +18,7 @@
 
         .container {
             width: 80%;
+            height : 100% ;
         }
 
         table {
@@ -39,18 +40,48 @@
         .action-icons {
             display: flex;
             align-items: center;
+            color: black;
             justify-content: flex-end; /* Aligner les icônes à droite */
         }
 
         .action-icons i {
             margin-left: 10px; /* Marge à gauche pour l'espace entre les icônes et le texte */
             cursor: pointer;
+            color: black;
+        }
+
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Ajoutez ces styles pour le logo */
+        .logo-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+        }
+
+        .logo img {
+            width: 100px; /* Ajustez la taille du logo selon vos besoins */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="{{ path('info_user') }}" class="button">Ajouter un habitant</a>
+    <div class="page-title">
+            <h1>Recensement de la ville d'Orléans</h1>
+        </div>
+        <!-- Ajoutez le conteneur du logo en haut à droite -->
+        <div class="logo-container">
+            <div class="logo">
+                <!-- Utilisez votre lien d'image réel ici -->
+                <img src="https://www.orleans-metropole.fr/fileadmin/orleans/MEDIA/document/logo/logo-metropole.jpg" alt="Logo de la Mairie d'Orléans">
+            </div>
+        </div>
+        <a href="{{ path('info_user', {'modify_id': ""}) }}" class="button">Ajouter un habitant</a>
         <table>
             <thead>
                 <tr>
@@ -63,59 +94,32 @@
             </thead>
             <tbody>
                 {% for habitant in habitants %}
-    <tr>
-        <td>{{ habitant.getNom() }}</td>
-        <td>{{ habitant.getPrenom() }}</td>
-        <td>{{ habitant.getDateDeNaissance() }}</td>
-        <td>{{ habitant.getGenre() }}</td>
-        <td class="action-icons">
-            <i class="fas fa-pencil-alt" onclick="editHabitant(
-                {{ habitant.id }},
-                '{{ habitant.getNom() }}',
-                '{{ habitant.getPrenom() }}',
-                '{{ habitant.getDateDeNaissance() }}',
-                '{{ habitant.getGenre() }}'
-            )"></i>
-            <i class="fas fa-trash" onclick="deleteHabitant({{ habitant.id }})"></i>
-        </td>
-    </tr>
-{% endfor %}
+                    <tr>
+                        <td>
+    <span>{{ habitant.getNom() }}</span>
+</td>
+<td>
+    <span>{{ habitant.getPrenom() }}</span>
+</td>
+<td>
+    <span>{{ habitant.getDateDeNaissance() }}</span>
+</td>
+<td>
+    <span>{{ habitant.getGenre() }}</span>
+</td>
+                        <td class="action-icons">
+                        <a href="{{ path('info_user', {'modify_id': habitant.getId()}) }}" class="modify-link">
+                        <i class="fas fa-pencil-alt"></i>
+                            <a href="{{ path('app_form', {'delete_id': habitant.getId()}) }}" class="delete-link">
+                            <i class="fas fa-trash"></i>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 
     <script>
-        function editHabitant(id, nom, prenom, dateNaissance, genre) {
-        // Encodage des valeurs pour les URL
-        var encodedNom = encodeURIComponent(nom);
-        var encodedPrenom = encodeURIComponent(prenom);
-        var encodedDateNaissance = encodeURIComponent(dateNaissance);
-        var encodedGenre = encodeURIComponent(genre);
-
-        // Rediriger vers la page d'ajout d'utilisateur avec les données préremplies
-        window.location.href = "{{ path('info_user') }}" +
-            "?id=" + id +
-            "&nom=" + encodedNom +
-            "&prenom=" + encodedPrenom +
-            "&date_naissance=" + encodedDateNaissance +
-            "&genre=" + encodedGenre;
-    }
-
-        function deleteHabitant(identifiant) {
-        if (confirm('Êtes-vous sûr de vouloir supprimer cet habitant ?')) {
-            // Utilisez Ajax pour envoyer une requête de suppression
-            var id = identifiant ; 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', "{{ path('delete_habitant', {'id': id}) }}", true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Si la suppression est réussie, mettez à jour l'affichage
-                    location.reload(); // Rafraîchit la page (vous pouvez utiliser une autre méthode pour mettre à jour l'affichage)
-                }
-            };
-            xhr.send();
-        }
-    }
     </script>
 </body>
 </html>

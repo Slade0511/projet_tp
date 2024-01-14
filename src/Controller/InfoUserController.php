@@ -20,25 +20,47 @@ class InfoUserController extends AbstractController
     
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        $nom = "";
+        $prenom = "";
+        $dateNaissance = new \DateTime('2024-01-14');
+        $Genre = "Masculin" ;
+        $id = $request->get('modify_id');
+            if($id != "")
+            {
+            $habitantsRepository = $entityManager->getRepository(Habitant::class);
+            $habitant = $habitantsRepository->find($id);
+            
+        
+                    $nom = $habitant->getNom() ;
+                    $prenom = $habitant->getPrenom() ;
+                    $dateNaissance = $habitant->GetDateDeNaissance() ;
+                    if (!$dateNaissance instanceof \DateTime) {
+                        $dateNaissance = \DateTime::createFromFormat('Y-m-d', $dateNaissance);
+                    }
+                    $Genre = $habitant->getGenre() ;                       
+            }
         
         // Créez un formulaire simple
         $form = $this->createFormBuilder()
-            ->add('nom', null, ['label' => 'Nom'])
-            ->add('prenom', null, ['label' => 'Prénom'])
+            ->add('nom', null, ['label' => 'Nom', 'data' => $nom])
+            ->add('prenom', null, ['label' => 'Prénom', 'data' => $prenom])
             ->add('date_naissance', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'html5' => true,
                 'format' => 'yyyy-MM-dd',
+                'data' => $dateNaissance
             ])
             ->add('genre', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
                 'label' => 'Genre',
                 'choices' => [
-                    'Homme' => 'Masculin',
-                    'Femme' => 'Féminin',
+                    'Masculin' => 'Masculin',
+                    'Féminin' => 'Féminin',
                     'Non binaire' => 'Non binaire',
                     'Autre' => 'Autre',
                 ],
+                'data' => $Genre
             ])
             ->getForm();
 
@@ -49,11 +71,20 @@ class InfoUserController extends AbstractController
             // Traitez les données du formulaire
             $data = $form->getData();
             // Créez un nouvel objet Habitant
-            $habitant = new Habitant();
+            if($id == "")
+            {
+                $habitant = new Habitant();
+            }
+            else
+            {
+                $habitant = $entityManager->getRepository(Habitant::class)->find($id);
+            }
+
             $habitant->setNom($data['nom']);
-            $habitant->setPrenom($data['prenom']);
-            $habitant->setDateDeNaissance($data['date_naissance']->format('Y-m-d'));
-            $habitant->setGenre($data['genre']);
+                $habitant->setPrenom($data['prenom']);
+                $habitant->setDateDeNaissance($data['date_naissance']->format('Y-m-d'));
+                $habitant->setGenre($data['genre']);
+            
 
             // Enregistrez l'habitant dans la base de données
             $entityManager->persist($habitant);
@@ -61,7 +92,7 @@ class InfoUserController extends AbstractController
 
             // Affichez un message de succès ou redirigez l'utilisateur
             $this->addFlash('success', 'Habitant créé avec succès');
-            //return $this->redirectToRoute('form');
+            return $this->redirectToRoute('form');
         }
 
         // Affichez le formulaire dans la vue

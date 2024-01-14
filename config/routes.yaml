@@ -6,14 +6,19 @@ controllers:
 info_user:
     path: /info-user
     controller: App\Controller\InfoUserController::index
-valider_modifications:
-    path: '/valider-modifications'
-    controller: 'App\Controller\DefaultController::validerModifications'
 api_create_habitant:
     path: /api/create-habitant
     controller: App\Controller\ApiController::createHabitant
     methods: ['POST']
-delete_habitant:
-    path: '/delete-habitant/{id}'
-    controller: 'App\Controller\FormController::deleteHabitant'
+api_modify_habitant:
+    path: /api/modify-habitant
+    controller: App\Controller\ApiController::modifyHabitant
     methods: ['POST']
+api_delete_habitant:
+    path: /api/delete-habitant/{id}
+    controller: 'App\Controller\ApiController::deleteHabitant'
+    methods: ['POST']
+form:
+    path: /form
+    controller: App\Controller\FormController::index
+
