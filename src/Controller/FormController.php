@@ -20,7 +20,9 @@ class FormController extends AbstractController
 
         foreach ($habitants as $habitant) {
             $dateNaissance = $habitant->getDateDeNaissance();
-    
+            if (!$dateNaissance instanceof \DateTime) {
+                $dateNaissance = \DateTime::createFromFormat('d/m/Y', $dateNaissance);
+            }
             
         }
 
@@ -61,24 +63,6 @@ $entityManager->remove($habitant);
 $entityManager->flush();
 
  
-}
-
-function editHabitantAction(int $id, EntityManagerInterface $entityManager): JsonResponse
-{
-   $id = $request->request->get('id');
-   $nom = $request->request->get('nom');
-   $prenom = $request->request->get('prenom');
-   $dateNaissance = $request->request->get('date_naissance');
-   $genre = $request->request->get('genre');
-
-   // Récupérez l'habitant depuis la base de données
-   
-
-   // Enregistrez les modifications dans la base de données
-   $entityManager->flush();
-
-   // Répondez avec un succès
-   return new JsonResponse(['message' => 'Habitant mis à jour avec succès']);
 }
 
 /**

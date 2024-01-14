@@ -13,11 +13,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #33697d;
             height: 100vh;
+            color: white;
         }
 
         .container {
             width: 80%;
+            background-color: #33697d;
             height : 100% ;
         }
 
@@ -27,27 +30,36 @@
             margin-top: 20px;
         }
 
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+    td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
 
         th {
             background-color: #f2f2f2;
+            color: black; /* Couleur du texte des noms de colonnes dans le tableau */
         }
+
+        .button {
+        color: white; /* Couleur du texte pour le lien "Ajouter un habitant" */
+        text-decoration: none;
+        background-color: #33697d; /* Couleur de fond pour le lien */
+        padding: 10px; /* Ajoutez une marge intérieure au lien */
+        border-radius: 5px; /* Ajoutez une bordure arrondie au lien */
+    }
 
         .action-icons {
             display: flex;
             align-items: center;
-            color: black;
+            color: white;
             justify-content: flex-end; /* Aligner les icônes à droite */
         }
 
         .action-icons i {
             margin-left: 10px; /* Marge à gauche pour l'espace entre les icônes et le texte */
             cursor: pointer;
-            color: black;
+            color: white;
         }
 
         
@@ -74,11 +86,9 @@
     <div class="page-title">
             <h1>Recensement de la ville d'Orléans</h1>
         </div>
-        <!-- Ajoutez le conteneur du logo en haut à droite -->
         <div class="logo-container">
             <div class="logo">
-                <!-- Utilisez votre lien d'image réel ici -->
-                <img src="https://www.orleans-metropole.fr/fileadmin/orleans/MEDIA/document/logo/logo-metropole.jpg" alt="Logo de la Mairie d'Orléans">
+                <img src="https://firebasestorage.googleapis.com/v0/b/wordenglish-4dc90.appspot.com/o/logo-metropole-removebg-preview.png?alt=media&token=63822150-a8ea-4f78-b983-e22736fe0c23" alt="Logo de la Mairie d'Orléans">
             </div>
         </div>
         <a href="{{ path('info_user', {'modify_id': ""}) }}" class="button">Ajouter un habitant</a>
@@ -102,7 +112,7 @@
     <span>{{ habitant.getPrenom() }}</span>
 </td>
 <td>
-    <span>{{ habitant.getDateDeNaissance() }}</span>
+    <span>{{ habitant.getDateDeNaissance()|date('d/m/Y') }}</span>
 </td>
 <td>
     <span>{{ habitant.getGenre() }}</span>
